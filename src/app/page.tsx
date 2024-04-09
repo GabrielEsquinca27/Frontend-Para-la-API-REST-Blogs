@@ -3,7 +3,7 @@
 import { css } from "@emotion/react";
 import styles from "./page.module.css";
 import Post from "./components/post";
-import { Heading } from "@chakra-ui/react";
+import { Button, Heading } from "@chakra-ui/react";
 
 import { createClient } from "./services/supabase";
 import { useEffect, useState } from "react";
@@ -34,8 +34,9 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.description} style={{ marginBottom: "1rem" }}>
+      <div className={styles.description} style={{ marginBottom: "1rem", display: "flex", justifyContent: "space-between" }}>
         <Heading>Blog personal</Heading>
+        <Button colorScheme='blue'>Login</Button>
       </div>
 
       {posts.map((post: any) => {
