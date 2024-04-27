@@ -7,10 +7,13 @@ import { Button, Heading } from "@chakra-ui/react";
 
 import { createClient } from "./services/supabase";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
 export default function Home() {
+
+  const router = useRouter();
 
   const [posts, setPosts] = useState<any>([]);
 
@@ -36,7 +39,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description} style={{ marginBottom: "1rem", display: "flex", justifyContent: "space-between" }}>
         <Heading>Blog personal</Heading>
-        <Button colorScheme='blue'>Login</Button>
+        <Button colorScheme='blue' onClick={() => router.push('/login') }>Login</Button>
       </div>
 
       {posts.map((post: any) => {

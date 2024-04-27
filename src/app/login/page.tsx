@@ -1,10 +1,8 @@
 'use client';
 
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { createClient } from "../services/supabase";
+import { login } from "../services/auth";
 import { useState } from "react";
-
-const supabase = createClient();
 
 export default function Login()
 {
@@ -12,10 +10,11 @@ export default function Login()
     const [newPassword, setNewPassword] = useState('');
 
     async function singIn() {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: newEmail,
-          password: newPassword,
-        });
+        const response = await login(
+          newEmail,
+          newPassword,
+        );
+        console.log(response);
     }
 
     return (
