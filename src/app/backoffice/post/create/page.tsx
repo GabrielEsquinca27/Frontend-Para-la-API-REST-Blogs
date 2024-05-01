@@ -4,13 +4,21 @@ import styles from '../../../page.module.css';
 import { Card, CardBody, Heading, Textarea } from "@chakra-ui/react";
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { createClient } from "../../../services/supabase";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
+import { isLoggedIn } from '@/app/services/auth';
+import { redirect } from 'next/navigation';
 
 const supabase = createClient();
 
 export default function Post() {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      redirect('/login');
+    }
+  }, []);
 
   async function save() {
     console.log('Save new post');
