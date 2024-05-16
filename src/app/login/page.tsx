@@ -1,20 +1,27 @@
 'use client';
 
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { login } from "../services/auth";
+import { loginSevice } from "../services/auth";
 import { useState } from "react";
+import { useAuthContext } from "@/contexts/authContext";
+import { useRouter } from "next/navigation";
 
 export default function Login()
 {
     const [newEmail, setNewEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const authContext = useAuthContext();
+    const router = useRouter();
 
     async function singIn() {
-        const response = await login(
+        const response = await loginSevice(
           newEmail,
           newPassword,
         );
         console.log(response);
+
+        authContext.login(response);
+        return router.push('/backoffice/post/create');
     }
 
     return (

@@ -5,20 +5,14 @@ import { Card, CardBody, Heading, Textarea } from "@chakra-ui/react";
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { createClient } from "../../../services/supabase";
 import { use, useEffect, useState } from "react";
-import { isLoggedIn } from '@/app/services/auth';
-import { redirect } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
 export default function Post() {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
-
-  useEffect(() => {
-    if (!isLoggedIn()) {
-      redirect('/login');
-    }
-  }, []);
+  const router = useRouter();
 
   async function save() {
     console.log('Save new post');
@@ -35,8 +29,9 @@ export default function Post() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.description} style={{ marginBottom: "1rem" }}>
+      <div className={styles.description} style={{ marginBottom: "1rem", display: 'flex', justifyContent: 'space-between' }}>
         <Heading>Nuevo post</Heading>
+        <Button colorScheme='blue' onClick={() => router.push('/logout') }>Logout</Button>
       </div>
       <div>
         <Card>

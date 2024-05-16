@@ -1,14 +1,19 @@
+'use client';
+
 import { useAuthContext } from "@/contexts/authContext";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 function Layout({ children }: { children: ReactNode }) {
 
     const { isLoggedIn } = useAuthContext();
 
-    if (!isLoggedIn) {
-        redirect('/login');
-    }
+    useEffect(() => {
+        console.log('isLoggedIn', isLoggedIn);
+        if (!isLoggedIn) {
+            redirect('/login');
+        }
+    }, [isLoggedIn]);
 
     return <div>{children}</div>
 }

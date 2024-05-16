@@ -1,8 +1,6 @@
-"use server";
+'use client';
 
-import { cookies } from "next/headers";
-
-export async function login (email: string, password: string) {
+export async function loginSevice (email: string, password: string) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const response = await fetch(`${API_URL}/sanctum/token`, {
@@ -21,23 +19,5 @@ export async function login (email: string, password: string) {
   const data = await response.json();
   console.log(data);
 
-  sessionStorage.setItem('token', data.token);
-  cookies().set('token', data.token, {
-    secure: true,
-    httpOnly: true,
-    path: '/',
-  })
-
   return data;
 };
-
-export async function isLoggedIn() {
-  // const token = sessionStorage.getItem('token');
-  const token = await cookies().get('token');
-
-  if (token !== undefined) {
-    return true;
-  }
-
-  return false;
-}
