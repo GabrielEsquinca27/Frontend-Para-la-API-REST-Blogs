@@ -1,19 +1,20 @@
 'use client';
 
-export async function loginSevice (email: string, password: string) {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export async function loginService (email: string, password: string) {
+  const API_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  const response = await fetch(`${API_URL}/sanctum/token`, {
+  const response = await fetch(`${API_URL}/auth/v1/token?grant_type=password`, {
     method: 'POST',
     headers: {
+      'apikey': `${API_KEY}`,
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
     },
-    body: JSON.stringify({ email, password, device_name: 'web' }),
+    body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) {
-    throw new Error('Login failed');
+    throw new Error('Error de inicio de sesion.');
   }
 
   const data = await response.json();

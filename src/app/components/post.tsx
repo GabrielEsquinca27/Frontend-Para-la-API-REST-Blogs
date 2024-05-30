@@ -1,26 +1,37 @@
-import { Card, CardHeader, CardBody, CardFooter, Text, Image, Stack, Heading, Divider, Button } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Text, Image, Stack, Heading, Divider, Button } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation';
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 
 export default function Post(props: any) {
+    const router = useRouter();
+
+    const readMore = () => {
+        router.push(`/post/${props.post.id}`);
+    };
+
+    const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
     return (
-        <Card>
-            <CardBody>
+        <Card my="3">
+            <CardBody>    
                 <Image
-                    src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-                    alt='Green double couch with wooden legs'
+                    src={`${API_KEY}/storage/v1/object/public/blog_images/${props.post.image_url}`}
+                    alt='Imagen del blog'
                     borderRadius='lg'
-                    style={{ width: '100%', height: '20rem', objectFit: 'cover'}}
-                />
-                <Stack mt='6' spacing='3'>
+                    style={{ width: '100%', height: '25rem', objectFit: 'cover'}}
+                />                
+                <Stack mt='6' spacing='6'>
                     <Heading>{ props.post.title }</Heading>
-                    <Text>{ props.post.content }</Text>
+                    <Text>{ props.post.content.substring(0,250) } .....</Text>
                 </Stack>
+                <Divider my='4' />
             </CardBody>
-            <Divider></Divider>
             <CardFooter>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'end', alignItems: 'end'}}>
-                    <Button colorScheme='teal'>Leer completo</Button>
+                    <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant="outline" borderWidth="2px" onClick={ readMore }>Seguir leyendo</Button>
                 </div>
             </CardFooter>
         </Card>
+        
     );
 }

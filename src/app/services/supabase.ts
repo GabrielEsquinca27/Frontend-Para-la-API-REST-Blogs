@@ -1,6 +1,5 @@
 
 import { createClient as createServerClient } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
 
 export function createClient() {
   return createServerClient(
